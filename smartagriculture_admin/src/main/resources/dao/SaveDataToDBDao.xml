@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dudu.smartagriculture.dao.SaveDataToDBDao">
+    <!--批量新增回写主键支持-->
+    <insert id="saveSensors">
+        INSERT INTO device_sensor (name,data,time,symbol,rule_name) VALUES
+        <foreach collection="devicesSensor" separator="," item="item" index="index">
+            (
+              #{item.name},
+              #{item.data},
+              #{item.time},
+              #{item.symbol},
+              #{item.ruleName}
+            )
+        </foreach>
+    </insert>
+
+
+    <insert id="saveController">
+        INSERT INTO device_controller (state,name,data,time,rule_name) VALUES
+        <foreach collection="devicesController" separator="," item="item" index="index">
+            (
+            #{item.state},
+            #{item.name},
+            #{item.data},
+            #{item.time},
+            #{item.ruleName}
+            )
+        </foreach>
+    </insert>
+</mapper>

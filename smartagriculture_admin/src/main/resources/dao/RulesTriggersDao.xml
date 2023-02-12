@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dudu.smartagriculture.dao.RulesTriggersDao">
+    <insert id="addTriggersList" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO rules_triggers (source,sensor_name,operator,value,fid) VALUES
+        <foreach collection="triggersList" separator="," item="item" index="index">
+            (
+            #{item.source},
+            #{item.sensorName},
+            #{item.operator},
+            #{item.value},
+            #{item.fid}
+            )
+        </foreach>
+    </insert>
+</mapper>

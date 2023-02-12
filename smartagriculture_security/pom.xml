@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!--本项目依赖描述-->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.dudu</groupId>
+    <artifactId>smartagriculture_security</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>smartagriculture_security</name>
+    <packaging>jar</packaging>
+
+    <!--父项目依赖-->
+    <parent>
+        <artifactId>smartagriculturesystems</artifactId>
+        <groupId>com.itguye</groupId>
+        <version>1.0.0.221129RELEASE</version>
+    </parent>
+
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.dudu</groupId>
+            <artifactId>smartagriculture_common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+    </dependencies>
+
+
+</project>

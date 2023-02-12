@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dudu.smartagriculture.mbg.mapper.RulesMapper">
+  <resultMap id="BaseResultMap" type="com.dudu.smartagriculture.mbg.model.Rules">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="rule_name" jdbcType="VARCHAR" property="ruleName" />
+    <result column="rule_expressions" jdbcType="VARCHAR" property="ruleExpressions" />
+    <result column="operate" jdbcType="VARCHAR" property="operate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="prefix" jdbcType="VARCHAR" property="prefix" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="execution_time" jdbcType="TIMESTAMP" property="executionTime" />
+    <result column="fid" jdbcType="INTEGER" property="fid" />
+    <result column="interval_time" jdbcType="INTEGER" property="intervalTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, rule_name, rule_expressions, operate, remark, prefix, create_time, update_time, 
+    start_time, end_time, execution_time, fid, interval_time
+  </sql>
+  <select id="selectByExample" parameterType="com.dudu.smartagriculture.mbg.model.RulesExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rules
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from rules
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from rules
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dudu.smartagriculture.mbg.model.RulesExample">
+    delete from rules
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dudu.smartagriculture.mbg.model.Rules">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rules (rule_name, rule_expressions, operate, 
+      remark, prefix, create_time, 
+      update_time, start_time, end_time, 
+      execution_time, fid, interval_time
+      )
+    values (#{ruleName,jdbcType=VARCHAR}, #{ruleExpressions,jdbcType=VARCHAR}, #{operate,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{prefix,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{executionTime,jdbcType=TIMESTAMP}, #{fid,jdbcType=INTEGER}, #{intervalTime,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dudu.smartagriculture.mbg.model.Rules">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into rules
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ruleName != null">
+        rule_name,
+      </if>
+      <if test="ruleExpressions != null">
+        rule_expressions,
+      </if>
+      <if test="operate != null">
+        operate,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="prefix != null">
+        prefix,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="executionTime != null">
+        execution_time,
+      </if>
+      <if test="fid != null">
+        fid,
+      </if>
+      <if test="intervalTime != null">
+        interval_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ruleName != null">
+        #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleExpressions != null">
+        #{ruleExpressions,jdbcType=VARCHAR},
+      </if>
+      <if test="operate != null">
+        #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="prefix != null">
+        #{prefix,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="executionTime != null">
+        #{executionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fid != null">
+        #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="intervalTime != null">
+        #{intervalTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dudu.smartagriculture.mbg.model.RulesExample" resultType="java.lang.Long">
+    select count(*) from rules
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update rules
+    <set>
+      <if test="row.id != null">
+        id = #{row.id,jdbcType=INTEGER},
+      </if>
+      <if test="row.ruleName != null">
+        rule_name = #{row.ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="row.ruleExpressions != null">
+        rule_expressions = #{row.ruleExpressions,jdbcType=VARCHAR},
+      </if>
+      <if test="row.operate != null">
+        operate = #{row.operate,jdbcType=VARCHAR},
+      </if>
+      <if test="row.remark != null">
+        remark = #{row.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="row.prefix != null">
+        prefix = #{row.prefix,jdbcType=VARCHAR},
+      </if>
+      <if test="row.createTime != null">
+        create_time = #{row.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.updateTime != null">
+        update_time = #{row.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.startTime != null">
+        start_time = #{row.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.endTime != null">
+        end_time = #{row.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.executionTime != null">
+        execution_time = #{row.executionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="row.fid != null">
+        fid = #{row.fid,jdbcType=INTEGER},
+      </if>
+      <if test="row.intervalTime != null">
+        interval_time = #{row.intervalTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update rules
+    set id = #{row.id,jdbcType=INTEGER},
+      rule_name = #{row.ruleName,jdbcType=VARCHAR},
+      rule_expressions = #{row.ruleExpressions,jdbcType=VARCHAR},
+      operate = #{row.operate,jdbcType=VARCHAR},
+      remark = #{row.remark,jdbcType=VARCHAR},
+      prefix = #{row.prefix,jdbcType=VARCHAR},
+      create_time = #{row.createTime,jdbcType=TIMESTAMP},
+      update_time = #{row.updateTime,jdbcType=TIMESTAMP},
+      start_time = #{row.startTime,jdbcType=TIMESTAMP},
+      end_time = #{row.endTime,jdbcType=TIMESTAMP},
+      execution_time = #{row.executionTime,jdbcType=TIMESTAMP},
+      fid = #{row.fid,jdbcType=INTEGER},
+      interval_time = #{row.intervalTime,jdbcType=INTEGER}
+    <if test="example != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dudu.smartagriculture.mbg.model.Rules">
+    update rules
+    <set>
+      <if test="ruleName != null">
+        rule_name = #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleExpressions != null">
+        rule_expressions = #{ruleExpressions,jdbcType=VARCHAR},
+      </if>
+      <if test="operate != null">
+        operate = #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="prefix != null">
+        prefix = #{prefix,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="executionTime != null">
+        execution_time = #{executionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fid != null">
+        fid = #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="intervalTime != null">
+        interval_time = #{intervalTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dudu.smartagriculture.mbg.model.Rules">
+    update rules
+    set rule_name = #{ruleName,jdbcType=VARCHAR},
+      rule_expressions = #{ruleExpressions,jdbcType=VARCHAR},
+      operate = #{operate,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      prefix = #{prefix,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      execution_time = #{executionTime,jdbcType=TIMESTAMP},
+      fid = #{fid,jdbcType=INTEGER},
+      interval_time = #{intervalTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

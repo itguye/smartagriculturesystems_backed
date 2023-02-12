@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dudu.smartagriculture.dao.RulesDao">
+   <select id="getArrList" resultType="com.dudu.smartagriculture.dto.RulesListDto" parameterType="java.lang.String">
+       SELECT rf.id,rl.rule_name ,GROUP_CONCAT(rule_expressions) as expressions ,
+              GROUP_CONCAT(CONCAT(action_name,":",IF(act =  1,"true","false")) SEPARATOR "," ) as ation,
+              rf.create_time ,rf.remark,rl.update_time,rl.start_time,rl.end_time,rl.interval_time
+       FROM rules_forms as  rf
+                LEFT JOIN  rules  as rl ON  rl.fid = rf.id
+                LEFT JOIN  rules_actions as ra ON ra.fid = rf.id
+       GROUP BY rl.rule_name
+       <if test="keyword !=null and keyword !='' ">
+           HAVING rl.rule_name LIKE  concat('%',#{keyword,jdbcType=VARCHAR},'%') ESCAPE '/'
+       </if>
+
+   </select>
+
+
+
+<update id="setForeignKeyChecks">
+    <set>
+        foreign_key_checks = #{id};
+    </set>
+</update>
+
+
+
+    <select id="getRules" resultType="com.dudu.smartagriculture.mbg.model.Rules">
+        SELECT *  from rules
+        WHERE NOW() BETWEEN  start_time AND end_time AND (ISNULL(execution_time) OR (NOW() >= execution_time)  );
+    </select>
+</mapper>

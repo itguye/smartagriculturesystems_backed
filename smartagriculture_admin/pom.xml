@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.dudu</groupId>
+    <artifactId>smartagriculture_admin</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>smartagriculture_admin</name>
+    <packaging>jar</packaging>
+
+
+
+    <parent>
+        <artifactId>smartagriculturesystems</artifactId>
+        <groupId>com.itguye</groupId>
+        <version>1.0.0.221129RELEASE</version>
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+       <!--导入mbg依赖-->
+        <dependency>
+            <groupId>com.dudu</groupId>
+            <artifactId>smartagriculture_mbg</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+
+
+        <!--用来处理POL相关的操作:easypol-->
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-base</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-web</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-annotation</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
+
+        <!--导入安全框架的依赖:不采用安全框架,由于该项目过于简单采用静态配置-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.dudu</groupId>-->
+        <!--            <artifactId>smartagriculture_security</artifactId>-->
+        <!--            <version>0.0.1-SNAPSHOT</version>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+        </dependency>
+        <!--导入代码生成器的依赖-->
+
+        <!--mqtt相关依赖-->
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-stream</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-integration</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-mqtt</artifactId>
+        </dependency>
+
+
+        <!--jackson-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dudu</groupId>
+            <artifactId>smartagriculture_mbg</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <!--easy-rules 执行引擎-->
+        <dependency>
+            <groupId>org.jeasy</groupId>
+            <artifactId>easy-rules-core</artifactId>
+            <version>${easy.rules.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jeasy</groupId>
+            <artifactId>easy-rules-mvel</artifactId>
+            <version>${easy.rules.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jeasy</groupId>
+            <artifactId>easy-rules-spel</artifactId>
+            <version>${easy.rules.version}</version>
+        </dependency>
+    </dependencies>
+
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.5</version>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+
+                <!--去除在生产环境中不变的依赖 -->
+                <!-- <configuration> <layout>ZIP</layout> <excludeGroupIds> org.springframework.boot, org.springframework, org.springframework.data, org.slf4j, org.apache.tomcat.embed, org.mongodb, com.github.0604hx,
+                    com.fasterxml.jackson.core, commons-beanutils, commons-codec, org.apache.commons, org.hibernate, com.jayway, org.jboss, com.fasterxml, commons-collections, ch.qos.logback, org.scala-lang, org.yaml, org.jboss.logging,
+                    javax.validation, nz.net.ultraq.thymeleaf, org.thymeleaf, ognl, org.unbescape, org.javassist io.netty, org.projectlombok </excludeGroupIds> </configuration> -->
+            </plugin>
+        </plugins>
+
+        <!-- 引入jar包 -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources/lib</directory>
+                <targetPath>BOOT-INF/lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <directory>src/main/java</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/*.xml</include>-->
+<!--                </includes>-->
+<!--                <filtering>false</filtering>-->
+<!--            </resource>-->
+
+<!--            &lt;!&ndash;设置自己目录下的配置文件&ndash;&gt;-->
+<!--            <resource>-->
+<!--                &lt;!&ndash;下方resources的文件夹名字要和自己项目的文件夹名确认一致才行 很多人就是忽略了名字不一致 &ndash;&gt;-->
+<!--                <directory>src/main/resources</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/*</include>-->
+<!--                </includes>-->
+<!--            </resource>-->
+<!--        </resources>-->
+    </build>
+
+</project>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dudu.smartagriculture.dao.UmsAdminRoleRelationDao">
+
+    <select id="getResourceList" resultType="com.dudu.smartagriculture.mbg.model.UmsResource" parameterType="long">
+        SELECT  rs.id id,
+                rs.create_time createTime,
+                rs.`name` `name`,
+                rs.url url,
+                rs.description description,
+                rs.category_id categoryId
+        from ums_admin_role_relation arr
+                 LEFT JOIN ums_role ro on ro.id = arr.role_id
+                 LEFT JOIN ums_role_resource_relation rrr on rrr.role_id = ro.id
+                 LEFT JOIN ums_resource rs on rs.id = rrr.resource_id
+        WHERE arr.admin_id = #{adminId}
+          And rs.id IS NOT null
+        GROUP BY rs.id
+    </select>
+
+    <select id="getRoleList" resultMap="com.dudu.smartagriculture.mbg.mapper.UmsRoleMapper.BaseResultMap" parameterType="long">
+        SELECT ur.*
+        FROM ums_admin_role_relation uarr
+                 LEFT JOIN ums_role ur ON ur.id = uarr.role_id
+        WHERE uarr.admin_id = #{adminId}
+
+    </select>
+
+    <select id="getAdminIdList" parameterType="long" resultType="long">
+        SELECT ur.name as  roles,ua.username,icon,email,nick_name,note,ua.create_time  FROM ums_role ur
+        LEFT JOIN ums_admin_role_relation urr ON urr.role_id = ur.id
+        LEFT JOIN ums_admin ua ON urr.admin_id = ua.id
+        WHERE urrr.resource_id =#{resourceId}
+
+    </select>
+
+    <!--批量新增回写主键支持-->
+    <insert id="insertList">
+        INSERT INTO ums_admin_role_relation (admin_id, role_id) VALUES
+        <foreach collection="list" separator="," item="item" index="index">
+            (#{item.adminId,jdbcType=BIGINT},
+            #{item.roleId,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+    <select id="getUserInfoAndRoleByName" parameterType="string" resultType="com.dudu.smartagriculture.dto.UmsAdminUserInfoParam">
+        SELECT ur.name as  roles,ua.username,icon,email,nick_name,note,ua.create_Time,ua.id  FROM ums_role ur
+        LEFT JOIN ums_admin_role_relation urr ON urr.role_id = ur.id
+        LEFT JOIN ums_admin ua ON urr.admin_id = ua.id
+        WHERE ua.username = #{name};
+    </select>
+
+
+    <select id="getPermissionList" resultMap="com.dudu.smartagriculture.mbg.mapper.UmsPermissionMapper.BaseResultMap">
+        SELECT
+            p.*
+        FROM
+            ums_admin_role_relation ar
+                LEFT JOIN ums_role r ON ar.role_id = r.id
+                LEFT JOIN ums_role_permission_relation rp ON r.id = rp.role_id
+                LEFT JOIN ums_permission p ON rp.permission_id = p.id
+        WHERE
+            ar.admin_id = #{adminId}
+          AND p.id IS NOT NULL
+          AND p.id NOT IN (
+            SELECT
+                p.id
+            FROM
+                ums_admin_permission_relation pr
+                    LEFT JOIN ums_permission p ON pr.permission_id = p.id
+            WHERE
+                pr.type = - 1
+              AND pr.admin_id = #{adminId}
+        )
+        UNION
+        SELECT
+            p.*
+        FROM
+            ums_admin_permission_relation pr
+                LEFT JOIN ums_permission p ON pr.permission_id = p.id
+        WHERE
+            pr.type = 1
+          AND pr.admin_id = #{adminId}
+    </select>
+</mapper>
